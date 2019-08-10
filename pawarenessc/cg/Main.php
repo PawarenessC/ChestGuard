@@ -51,7 +51,7 @@ Class Main extends pluginBase implements Listener{
 			$data = $x.$y.$z;
 			$this->chest->set($data,[
 			"name"=>$name,
-			"status"=>"guard",
+			"status"=>"free",
 			]);
 		}
 	}
@@ -64,8 +64,12 @@ Class Main extends pluginBase implements Listener{
 			$x = $block->x;
 			$y = $block->y;
 			$z = $block->z;
-			$data = $x.$y.$z;
-			if($this->chest->exists($data)){ $this->config->remove($data); }
+			$data = $x.$y.$z; 
+			$owner = $this->chest->getAll()[$data]["name"]; //ToDo: オーナー判定
+			if($this->chest->exists($data) && $owner == $name){
+				$this->config->remove($data);
+				$player->sendMessage("ChestGuard>> §cチェストを破壊しました");
+			}
 		}
 	}
 	
@@ -73,6 +77,26 @@ Class Main extends pluginBase implements Listener{
 		if($id = $event->getBlock()->getId() == BID::CHEST){
 		}
 	}*/
+	
+	public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
+		$this->MainUI($sender);
+	}
+	
+	public function MainUI($player){
+		$buttons[] = [
+		'text' => "戻る"];
+		$buttons[] = [
+		'text' => "情報を確認する"];
+		$buttons[] = [
+		'text' => "チェストを保護する"];
+		$buttons[] = [
+		'text' => "保護を解除する"];
+		$buttons[] = [
+		'text' => "チェストを開放する"];
+		$buttons[] = [
+		'text' => "開けれる人物を追加する"];
+		$this->sendForm($player,"§7Chest Guard","\n\n",$buttons,9000);
+	}
 }
 	
 	
