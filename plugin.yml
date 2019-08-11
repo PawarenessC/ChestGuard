@@ -1,0 +1,11 @@
+name: ChestGuard
+main: pawarenessc\cg\Main
+version: 0.1
+api: [3.0.0,4.0.0]
+load: POSTWORLD
+author: PawarenessC
+description: 新しいチェストガード
+commands: 
+  cmd: 
+    description: "説明"
+    usage: "/cmd"
